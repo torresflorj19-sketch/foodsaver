@@ -1,0 +1,52 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>FoodSaver</title>
+  <script src="https://unpkg.com/vue@3"></script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+<div id="app">
+  <h1>🍎 FoodSaver</h1>
+
+  <!-- INPUTS -->
+  <input type="text" v-model="nombre" placeholder="Nombre del alimento">
+  <input type="date" v-model="fecha">
+  <button @click="agregar">Agregar</button>
+  <button @click="limpiarInputs">Limpiar</button>
+
+  <p v-if="error" class="error">{{ error }}</p>
+
+  <!-- FILTROS -->
+  <h3>Filtros</h3>
+  <button @click="filtro = 'todos'">Todos</button>
+  <button @click="filtro = 'vencidos'">Vencidos</button>
+  <button @click="filtro = 'proximos'">Por vencer</button>
+  <button @click="filtro = 'buenos'">En buen estado</button>
+
+  <button @click="vaciarLista">Vaciar lista</button>
+
+  <!-- LISTA -->
+  <ul>
+    <li v-for="(item, index) in listaFiltrada" :key="index">
+      <strong>{{ item.nombre }}</strong> - {{ item.fecha }}
+
+      <span :class="estado(item.fecha)">
+        ({{ mensajeEstado(item.fecha) }})
+      </span>
+
+      <br>
+      <button @click="eliminar(index)">Eliminar</button>
+      <button @click="marcarConsumido(index)">Consumido</button>
+    </li>
+  </ul>
+
+  <p v-if="alimentos.length === 0">No hay alimentos registrados</p>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
